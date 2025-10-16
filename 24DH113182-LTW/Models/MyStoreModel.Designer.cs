@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\Study\HUFLIT\Nam 2\HK1\LapTrinhWeb\24DH113182-LTW\24DH113182-LTW\Models\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'E:\Study\HUFLIT\Nam 2\HK1\LapTrinhWeb\24DH113182-LTW\24DH113182-LTW\Models\MyStoreModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

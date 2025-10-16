@@ -13,10 +13,10 @@ namespace _24DH113182_LTW.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MyStoreEntities2 : DbContext
+    public partial class MyStoreEntities : DbContext
     {
-        public MyStoreEntities2()
-            : base("name=MyStoreEntities2")
+        public MyStoreEntities()
+            : base("name=MyStoreEntities")
         {
         }
     

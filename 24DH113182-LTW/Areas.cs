@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace _24DH113182_LTW
+namespace MSSV24DH113182_LTW
 {
-    public class Areas : Controller
+    public class Areas: Controller
     {
         // GET: Areas
         public ActionResult Index()
