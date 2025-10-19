@@ -1,11 +1,11 @@
-﻿@model _24DH113182_LTW.Models.Category
+﻿@model _24DH113182_LTW.Models.Product
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Cập nhật danh mục </h2>
+<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -13,11 +13,18 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Category</h4>
+    <h4>Product</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.CategoryID)
-    @Html.Partial("PVCreateEditCategories", Model)
+    @Html.HiddenFor(model => model.ProductID)
+
+    @Html.Partial("PVCreateEditProduct", Model);
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
 </div>
 }
 

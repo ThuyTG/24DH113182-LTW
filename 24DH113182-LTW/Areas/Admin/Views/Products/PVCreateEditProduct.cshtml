@@ -1,0 +1,56 @@
+﻿@model _24DH113182_LTW.Models.Product
+
+
+
+@*Các phần chung của Edit và Create*@
+
+@*CategoryID dropdown list*@
+<div class="form-group">
+    @Html.LabelFor(model => model.CategoryID, "CategoryID", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+@*Product Name*@
+<div class="form-group">
+    @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+@*Product Description*@
+<div class="form-group">
+    @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+@*Product Price*@
+<div class="form-group">
+    @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+@*Product Image*@
+<div class="form-group">
+    @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ProductImage, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

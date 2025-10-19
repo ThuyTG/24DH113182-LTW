@@ -5,11 +5,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Danh sách danh mục</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -24,11 +21,14 @@
             @Html.DisplayFor(modelItem => item.CategoryName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CategoryID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CategoryID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CategoryID })
+            @Html.ActionLink("Sửa", "Edit", new { id=item.CategoryID }) |
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.CategoryID }) |
+            @Html.ActionLink("Xóa", "Delete", new { id=item.CategoryID })
         </td>
     </tr>
 }
-
+    
 </table>
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
