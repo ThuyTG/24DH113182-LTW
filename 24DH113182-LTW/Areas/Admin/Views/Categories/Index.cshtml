@@ -5,14 +5,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Danh sách danh mục</h2>
+<h2 class="bg-success">Danh sách danh mục</h2>
 
-<table class="table">
+<table class="table bg-info col-md-12">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
+        <th class="bg-success col-md-8">
+            Tên danh mục
         </th>
-        <th></th>
+        <th class="bg-success col-md-4"></th>
     </tr>
 
 @foreach (var item in Model) {

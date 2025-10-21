@@ -1,12 +1,29 @@
 ﻿@model _24DH113182_LTW.Models.Product
-
+<head>
+    <style>
+        textarea{
+            width: 100%;
+            height: 150px;
+            padding: 12px 5px;
+            box-sizing: border-box;
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: whitesmoke;
+            resize: none;
+        }
+        img{
+            height: 250px;
+            max-width: 250px;
+        }
+    </style>
+</head>
 
 
 @*Các phần chung của Edit và Create*@
 
 @*CategoryID dropdown list*@
 <div class="form-group">
-    @Html.LabelFor(model => model.CategoryID, "CategoryID", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="control-label col-md-2">Danh mục</div>
     <div class="col-md-10">
         @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -16,7 +33,7 @@
 
 @*Product Name*@
 <div class="form-group">
-    @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="control-label col-md-2">Tên sản phẩm</div>
     <div class="col-md-10">
         @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
@@ -25,7 +42,7 @@
 
 @*Product Description*@
 <div class="form-group">
-    @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="control-label col-md-2">Mô tả</div>
     <div class="col-md-10">
         @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
@@ -35,7 +52,7 @@
 
 @*Product Price*@
 <div class="form-group">
-    @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="control-label col-md-2">Đơn giá</div>
     <div class="col-md-10">
         @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
@@ -45,7 +62,7 @@
 
 @*Product Image*@
 <div class="form-group">
-    @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="control-label col-md-2">Hình ảnh</div>
     <div class="col-md-10">
         @Html.EditorFor(model => model.ProductImage, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })

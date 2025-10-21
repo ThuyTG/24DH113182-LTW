@@ -8,39 +8,25 @@
 <h2>Danh sách sản phẩm</h2>
 
 
-<table class="table">
+<table class="table bg-info container-fluid">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductImage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.CategoryName)
-        </th>
-        <th></th>
+        <th class="bg-success col-md-2">Hình ảnh</th>
+        <th class="bg-success col-md-3">Tên sản phẩm</th>
+        <th class="bg-success col-md-1">Đơn giá</th>
+        <th class="bg-success col-md-2">Danh mục</th>
+        <th class="bg-success col-md-4"></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
+            <img src="@Html.DisplayFor(modelItem => item.ProductImage)"/>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductDescription)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductImage)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Category.CategoryName)
@@ -57,3 +43,9 @@
 <p>
     @Html.ActionLink("Tạo sản phẩm mới", "Create")
 </p>
+
+<div class="form-group">
+    <div class="col-md-offset-8 col-md-4">
+        @Html.ActionLink("Tạo sản phẩm mới", "Create", null, new {@class = "btn btn-primary"})
+    </div>
+</div>

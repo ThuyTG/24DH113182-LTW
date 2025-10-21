@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using _24DH113182_LTW.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace _24DH113182_LTW.Areas.Admin.Controllers
 {
@@ -116,8 +117,12 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
+            if(category.Products.ToList() == null)
+            {
+                db.Categories.Remove(category);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 
