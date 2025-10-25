@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using _24DH113182_LTW.Models;
+using System.IO;
 
 namespace _24DH113182_LTW.Areas.Admin.Controllers
 {
@@ -48,10 +49,17 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage, UploadImage")] Product product)
         {
             if (ModelState.IsValid)
             {
+                if(product.ProductImage != null)
+                {
+                    string filename = Path.GetFileName(product.UploadImage.FileName);
+                    string savepath = "~/Content/images/";
+                    product.ProductImage = savepath + filename;
+                    product.UploadImage.SaveAs(Path.Combine(Server.MapPath(savepath), filename));
+                }
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,7 +90,7 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage, UploadImage")] Product product)
         {
             if (ModelState.IsValid)
             {

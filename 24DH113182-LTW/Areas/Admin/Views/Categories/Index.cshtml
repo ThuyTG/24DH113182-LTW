@@ -21,14 +21,14 @@
             @Html.DisplayFor(modelItem => item.CategoryName)
         </td>
         <td>
-            @Html.ActionLink("Sửa", "Edit", new { id=item.CategoryID }) |
-            @Html.ActionLink("Chi tiết", "Details", new { id=item.CategoryID }) |
-            @Html.ActionLink("Xóa", "Delete", new { id=item.CategoryID })
+            @Html.ActionLink("Sửa", "Edit", new { id=item.CategoryID }, new {@class = "btn btn-primary btn-sm"}) |
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.CategoryID }, new { @class = "btn btn-primary btn-sm" }) |
+            @Html.ActionLink("Xóa", "Delete", new { id=item.CategoryID }, new { @class = "btn btn-primary btn-sm" })
         </td>
     </tr>
 }
     
 </table>
 <p>
-    @Html.ActionLink("Thêm mới", "Create")
+    @Html.ActionLink("Thêm mới", "Create", new { @class = "btn btn-success" })
 </p>
