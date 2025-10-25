@@ -8,6 +8,10 @@ using System.Web;
 using System.Web.Mvc;
 using _24DH113182_LTW.Models;
 using System.IO;
+using _24DH113182_LTW.Models.ViewModel;
+using PagedList.Mvc;
+using PagedList;
+
 
 namespace _24DH113182_LTW.Areas.Admin.Controllers
 {
@@ -16,10 +20,52 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
         private MyStoreEntities db = new MyStoreEntities();
 
         // GET: Admin/Products
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm, decimal? minPrice, decimal? maxPrice, string sortOrder, int? page)
         {
-            var products = db.Products.Include(p => p.Category);
-            return View(products.ToList());
+            var model = new SearchProductVM();
+            var products = db.Products.AsQueryable();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = products.Where(p => 
+                                        p.ProductName.Contains(searchTerm) ||
+                                        p.ProductDescription.Contains(searchTerm) ||
+                                        p.Category.CategoryName.Contains(searchTerm));
+            }
+            if (minPrice.HasValue)
+            {
+                products = products.Where(p => p.ProductPrice >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                products = products.Where(p => p.ProductPrice <= maxPrice.Value);
+            }
+            switch (sortOrder)
+            {
+                case "name_asc":
+                    products = products.OrderBy(p => p.ProductName);
+                    break;
+                case "name_desc":
+                    products = products.OrderByDescending(p => p.ProductName);
+                    break;
+                case "price_asc":
+                    products = products.OrderBy(p => p.ProductPrice);
+                    break;
+                case "price_desc":
+                    products = products.OrderByDescending(p => p.ProductPrice);
+                    break;
+                // Mặc định sắp xếp theo tên
+                default:
+                    products = products.OrderBy(p => p.ProductName);
+                    break;
+            }
+            model.SortOrder = sortOrder;
+            // Phân trang
+            // Lấy trang hiện tại | nếu ko có thì = 1
+            int pageNumber = page ?? 1;
+            // Số sản phẩm mỗi trang
+            int pageSize = 4;
+            model.products = products.ToPagedList(pageNumber, pageSize);
+            return View(model);
         }
 
         // GET: Admin/Products/Details/5
