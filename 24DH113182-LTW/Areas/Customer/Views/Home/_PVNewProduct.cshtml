@@ -21,7 +21,7 @@
                     <div>
                         <p class="productPrice">@Html.DisplayFor(modelItem => product.ProductPrice)</p>
                         <p class="productName">@Html.DisplayFor(modelItem => product.ProductName)</p>
-                        <p class="productSale">Đã bán: &nbsp @Html.DisplayFor(modelItem => product.OrderDetails.Count())</p>
+                        <p class="productSale">Đã bán: &nbsp @product.OrderDetails.Count()</p>
                     </div>
                 </li>
             }
