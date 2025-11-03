@@ -1,0 +1,36 @@
+﻿@model _24DH113182_LTW.Models.ViewModel.HomeProductVM
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    <link rel="stylesheet" type="text/css" href=""/>
+}
+
+<main>
+    @*Banner*@
+    <section class="container-fluid" banner >
+        <div class="banner-container">
+            <h2>Xin chào!</h2>
+            <a href="" class="btnBanner">Bắt đầu mua sắm</a>
+        </div>
+    </section>
+    <br />
+
+    @*Tìm kiếm sản phẩm*@
+    <section class="container-fluid searchProd">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+            {
+                <div class="form-group search-container">
+                    @Html.TextBoxFor(m => m.SearchTerm, new {@class = "search-input", placeholder = "Nhập tên hoặc mô tả sản phẩm"})
+                    <button type="submit" class="search-button">🔍</button>
+                </div>
+            }
+    </section>
+    <hr />
+
+    @*Sản phẩm nổi bật*@
+    @Html.Partial("_PVFeatureProduct", Model)
+
+    @*Sản phẩm mới*@
+    @Html.Partial("_PVNewProduct", Model)
+</main>

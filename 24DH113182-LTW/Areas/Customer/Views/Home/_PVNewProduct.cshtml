@@ -1,0 +1,38 @@
+﻿@model _24DH113182_LTW.Models.ViewModel.HomeProductVM
+@using PagedList.Mvc
+<link rel="stylesheet" type="text/css" href="" />
+
+
+@*Hiển thị danh sách 10 sản phẩm nổi bật*@
+
+@if (Model.NewProducts!= null && Model.NewProducts.Any())
+{
+    <section class="container-fluid listProd">
+        <h2>Sản phẩm mới</h2>
+        <ul class="list-container">
+            @foreach (var product in Model.NewProducts)
+            {
+                <li class="listProduct-item">
+                    <div>
+                        <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
+                            <img src="@Html.DisplayFor(modelItem => product.ProductImage)" />
+                        </a>
+                    </div>
+                    <div>
+                        <p class="productPrice">@Html.DisplayFor(modelItem => product.ProductPrice)</p>
+                        <p class="productName">@Html.DisplayFor(modelItem => product.ProductName)</p>
+                        <p class="productSale">Đã bán: &nbsp @Html.DisplayFor(modelItem => product.OrderDetails.Count())</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    </section>
+    <hr />
+    <div class="pagination-container">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Index", new {page, searchTerm = Model.SearchTerm}))
+    </div>
+}
+else
+{
+    <p>Không tìm thấy sản phẩm phù hợp</p>
+}

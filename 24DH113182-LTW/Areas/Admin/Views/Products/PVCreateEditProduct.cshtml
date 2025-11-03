@@ -64,7 +64,7 @@
 <div class="form-group">
     <div class="control-label col-md-2">Hình ảnh</div>
     <div class="col-md-10">
-        @Html.TextBoxFor(model => model.UploadImage, new {htmlAttributes = new {@type = "file"}});
+        @Html.TextBoxFor(model => model.UploadImage, new {htmlAttributes = new {@type = "file"}})
         @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
     </div>
 </div>
