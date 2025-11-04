@@ -15,7 +15,7 @@ namespace _24DH113182_LTW.Models.ViewModel
 
         // Thuộc tính hỗ trợ phân trang
         public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public int PageSize { get; set; } = 3;
 
         // Danh sách 8 sản phẩm top deal
         public PagedList.IPagedList<Product> TopProducts { get; set; }

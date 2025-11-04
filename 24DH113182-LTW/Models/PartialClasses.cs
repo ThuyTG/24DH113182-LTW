@@ -7,13 +7,13 @@ using System.Web;
 
 namespace _24DH113182_LTW.Models
 {
-    [MetadataType(typeof(UserMetadata))]
-    public partial class User
-    {
-        [NotMapped]
-        [Compare("Password")]
-        public string ConfirmedPassword { get; set; }
-    }
+    //[MetadataType(typeof(UserMetadata))]
+    //public partial class User
+    //{
+    //    [NotMapped]
+    //    [Compare("Password")]
+    //    public string ConfirmedPassword { get; set; }
+    //}
     [MetadataType(typeof(ProductMetadata))]
     public partial class Product
     {
