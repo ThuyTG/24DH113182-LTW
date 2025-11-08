@@ -106,6 +106,10 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
                     product.ProductImage = savepath + filename;
                     product.UploadImage.SaveAs(Path.Combine(Server.MapPath(savepath), filename));
                 }
+                else
+                {
+                    product.ProductImage = "~/Content/images/default_image.jpg";
+                }
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
