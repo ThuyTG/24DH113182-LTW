@@ -101,10 +101,10 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
             {
                 if(product.ProductImage != null)
                 {
-                    string filename = Path.GetFileName(product.UploadImage.FileName);
+                    string filename = Path.GetFileName(product.UploadImg.FileName);
                     string savepath = "~/Content/images/";
                     product.ProductImage = savepath + filename;
-                    product.UploadImage.SaveAs(Path.Combine(Server.MapPath(savepath), filename));
+                    product.UploadImg.SaveAs(Path.Combine(Server.MapPath(savepath), filename));
                 }
                 else
                 {

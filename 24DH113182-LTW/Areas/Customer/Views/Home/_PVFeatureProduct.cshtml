@@ -1,6 +1,6 @@
 ﻿@model _24DH113182_LTW.Models.ViewModel.HomeProductVM
+<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css" />
 
-<link rel="stylesheet" type="text/css" href=""/>
 
 
 @*Hiển thị danh sách 10 sản phẩm nổi bật*@
@@ -10,23 +10,23 @@
     <section class="container-fluid featureProd">
         <h2>Sản phẩm nổi bật</h2>
         <div class="feature-container">
-            @foreach(var product in Model.FeaturedProducts)
-             {
+            @foreach (var product in Model.FeaturedProducts)
+            {
                 <div class="featureProduct-item">
                     <div>
                         <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
-                            <img src="@Html.DisplayFor(modelItem => product.ProductImage)"/>
+                            <img src="@Html.DisplayFor(modelItem => product.ProductImage)" />
                         </a>
                     </div>
                     <div>
                         <p class="productPrice">@Html.DisplayFor(modelItem => product.ProductPrice)</p>
                         <p class="productName">@Html.DisplayFor(modelItem => product.ProductName)</p>
                         <p class="productCategory">@Html.DisplayFor(modelItem => product.Category.CategoryName)</p>
-                        <p class="productSale">Đã bán: &nbsp @Html.DisplayFor(modelItem => product.OrderDetails.Count())</p>
+                        <p class="productSale">Đã bán: &nbsp @product.OrderDetails.Count()</p>
                     </div>
                 </div>
-             }
+            }
         </div>
-    </section> 
+    </section>
     <hr />
 }

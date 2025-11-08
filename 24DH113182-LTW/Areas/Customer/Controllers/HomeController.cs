@@ -53,8 +53,8 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
             int pageNumber = page ?? 1;
             int pageSize = model.PageSize;
             model.product = pro;
-            model.RelatedProducts = (List<Product>)products.OrderBy(p => p.ProductID).Take(8).ToPagedList(pageNumber, pageSize);
-            model.TopProducts = products.OrderBy(p => p.OrderDetails.Count()).Take(8).ToPagedList(pageNumber, pageSize);
+            model.RelatedProducts = products.OrderBy(p => p.ProductID).Take(8).ToList();
+            model.TopProducts = products.OrderByDescending(p => p.OrderDetails.Count()).Take(8).ToPagedList(pageNumber, pageSize);
 
             if (quantity.HasValue)
             {
