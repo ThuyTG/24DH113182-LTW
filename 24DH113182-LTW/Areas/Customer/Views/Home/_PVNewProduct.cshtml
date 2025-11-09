@@ -14,7 +14,7 @@
             @foreach (var product in Model.NewProducts)
             {
                 <li class="listProduct-item">
-                    <div>
+                    <div class="img-container">
                         <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
                             <img src="@Html.DisplayFor(modelItem => product.ProductImage)" />
                         </a>

@@ -13,7 +13,7 @@
             @foreach (var product in Model.FeaturedProducts)
             {
                 <div class="featureProduct-item">
-                    <div>
+                    <div class="img-container">
                         <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
                             <img src="@Html.DisplayFor(modelItem => product.ProductImage)" />
                         </a>

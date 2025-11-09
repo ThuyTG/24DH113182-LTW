@@ -52,7 +52,7 @@
 
 <h2>Giỏ Hàng</h2>
 <div class="shoppingcart">
-    @if(!Model.Items.Any() || Model.Items == null)
+    @if(Model?.Items?.Any() != true)
     { 
         <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
     }

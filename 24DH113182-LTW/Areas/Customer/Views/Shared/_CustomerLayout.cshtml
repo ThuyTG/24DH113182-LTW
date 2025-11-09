@@ -25,7 +25,7 @@
             <!-- Login/Logout -->
             <div class="icon">
                 <div class="login-container">
-                    <a href="/Home/Login"><i class="fa-regular fa-circle-user" style="color: #0d0d0d;"></i></a>
+                    <a href="~/Customer/Views/Account/Login"><i class="fa-regular fa-circle-user" style="color: #0d0d0d;"></i></a>
                 </div>
                 <div class="cart-container">
                     <a href="/Home/ShoppingCart">
@@ -36,25 +36,11 @@
             </div>
 
         </section>
-
-        <!-- Navigation bar menu in header -->
-        <div class="container-nav-bar">
-            <nav class="nav-bar-header">
-                <ul class="nav-bar">
-                    <li><a href="/Home/HomePage"><i class="fa-solid fa-house" style="color: black;"></i></a></li>
-                    <li><a href="/Home/KhoaHoc">Khoa Học</a></li>
-                    <li><a href="/Home/TamLyHoc">Tâm Lý Học</a></li>
-                    <li><a href="/Home/VanHoc">Văn Học</a></li>
-                    <li><a href="/Home/KinhTe">Kinh Tế</a></li>
-                    <li><a href="/Home/SelfHelp">Self-help</a></li>
-                </ul>
-            </nav>
-        </div>
-
     </header>
-    @* 2. Body *@
 
+    @* 2. Body *@
     @RenderBody()
+
     @* 3. Footer *@
     <footer>
         <div class="footer-content">
@@ -91,7 +77,6 @@
     </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/Header.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

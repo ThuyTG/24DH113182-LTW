@@ -18,7 +18,7 @@ namespace _24DH113182_LTW.Models
     public partial class Product
     {
         [RegularExpression(@"[a-zA-Z0-9\s_\\.\-:]+(.png|.jpg|.gif|.PNG|.JPG|.GIF)$",
-ErrorMessage = "[translate:Chi chap nhan: PNG, JPG va GIF]")]
+ErrorMessage = "Chỉ chấp nhận định dạng file: PNG, JPG va GIF")]
         [NotMapped]
         public HttpPostedFile UploadImg { get; set; }
     }
