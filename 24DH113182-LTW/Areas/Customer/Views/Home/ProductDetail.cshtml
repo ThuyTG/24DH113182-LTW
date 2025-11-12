@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css"/>
 
 <div class="container-fluid pro">
-    <div class="div-horizontal">
+    <div class="div-horizontal row">
         @*Khối bên trái *@
             @*Hình ảnh sản phẩm*@
         <div class="col-md-3 pro-section">
@@ -35,7 +35,7 @@
             @*Phần tạm tính*@
         <div class="col-md-3 pro-section">
             <div class="form-group">
-                @using (Html.BeginForm("ProductDetail", "Home", FormMethod.Get))
+                @using (Html.BeginForm("ProductDetail", "Home", FormMethod.Post))
                 {
                     <h4><strong>Số lượng</strong></h4>
                     <p>
@@ -58,3 +58,58 @@
         <div>@Html.Partial("_PVTopProduct", Model)</div>
     </div>
 </div>
+@section Scripts{
+    
+    <script>
+    (function () {
+            // Elements
+            var qtyInput = document.getElementById('quantityInput');
+            var estimatedEl = document.getElementById('estimatedValue');
+            var priceEl = document.querySelector('.pro-price');
+            var addToCartBtn = document.getElementById('addToCartBtn');
+
+            if (!qtyInput || !estimatedEl || !priceEl || !addToCartBtn) return;
+
+            // Read raw numeric price from data attribute; fallback to parsing displayed text
+            var priceRaw = parseFloat(priceEl.getAttribute('data-price'));
+            if (isNaN(priceRaw)) {
+                // remove non-digits and parse
+                priceRaw = parseFloat(priceEl.textContent.replace(/[^\d.-]/g, '')) || 0;
+            }
+
+            // Helper: format as integer with thousand separators (no decimals) to match server "N0"
+            function formatNumberNoDecimals(n) {
+                return Math.round(n).toLocaleString('vi-VN');
+            }
+
+            // Update estimated and AddToCart href
+            function updateEstimated() {
+                var qty = parseInt(qtyInput.value, 10) || 1;
+                if (qty < 1) { qty = 1; qtyInput.value = 1; }
+                var estimated = priceRaw * qty;
+                estimatedEl.textContent = formatNumberNoDecimals(estimated);
+
+                // Update AddToCart link href: keep id param, replace quantity
+                // Build base url from existing href without quantity param
+                try {
+                    var url = new URL(addToCartBtn.href, window.location.origin);
+                    url.searchParams.set('quantity', qty);
+                    addToCartBtn.href = url.toString();
+                } catch (e) {
+                    // Fallback: append/replace quantity parameter manually
+                    var href = addToCartBtn.getAttribute('href') || '';
+                    // remove existing quantity param
+                    href = href.replace(/([?&])quantity=\d+(&?)/, function (m, p1, p2) { return p2 ? p1 : ''; });
+                    var sep = href.indexOf('?') === -1 ? '?' : '&';
+                    addToCartBtn.setAttribute('href', href + sep + 'quantity=' + qty);
+                }
+            }
+
+            // initialize on load
+            updateEstimated();
+
+            // update on input change
+            qtyInput.addEventListener('input', updateEstimated);
+            qtyInput.addEventListener('change', updateEstimated);
+        })();</script>    
+}

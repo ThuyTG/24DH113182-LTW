@@ -15,6 +15,10 @@ namespace _24DH113182_LTW.Models.ViewModel
             var existingItem = items.FirstOrDefault(item => item.ProductID == productID);
             if(existingItem != null)
             {
+                existingItem.Quantity += quantity;
+            }
+            else
+            {
                 items.Add(new CartItem { 
                     ProductID = productID,
                     ProductName = productName,
@@ -22,10 +26,6 @@ namespace _24DH113182_LTW.Models.ViewModel
                     Quantity = quantity,
                     UnitPrice = unitPrice,
                 });
-            }
-            else
-            {
-                existingItem.Quantity = quantity;
             }
         }
         public void RemoveItem(int productID)

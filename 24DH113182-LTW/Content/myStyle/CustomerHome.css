@@ -20,7 +20,20 @@
     .banner-container p {
         font-size: 1rem;
     }
-
+/* Button */
+.btnBanner{
+    text-decoration: none;
+    color: white;
+    border: 1px solid black;
+    border-radius: 24px;
+    padding: 10px;
+    background-color: navy;
+}
+    .btnBanner:hover {
+        background-color: cornflowerblue;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
 /*breadcrumb*/
 .breadcrumb {
     display: inline-block;
@@ -77,44 +90,15 @@
 .feature-container {
     display: flex;
     align-items: flex-start;
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     gap: 20px;
     padding: 20px 8px;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    position: relative; /* for overlay gradients */
+    position: relative;
 }
 
-/* hide webkit scrollbar */
-.feature-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Fade overlays at edges to indicate more content */
-.feature-container::before,
-.feature-container::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 48px;
-    pointer-events: none;
-    z-index: 2;
-}
-.feature-container::before {
-    left: 0;
-    background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
-}
-.feature-container::after {
-    right: 0;
-    background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
-}
-
-/* Product-item (slider card) */
+/* Make items explicit snap targets and keyboard-focusable */
 .featureProduct-item {
     min-width: 220px;
     max-width: 260px;
@@ -126,7 +110,6 @@
     flex: 0 0 auto;
     scroll-snap-align: start;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -183,17 +166,31 @@
 
 /*Style của LIST PRODUCT */
 .listProduct {
-    text-align: left;
+
 }
 .list-container {
     list-style-type: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: row;
     padding: 0;
-    margin: 0;
-    overflow-y: hidden;
+    margin: 20px;
+    overflow: hidden;
 }
+.listProduct-item {
+    width: 250px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    height: auto;
+    margin-right: 10px;
+}
+    .listProduct-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
 
+    }
 .lproduct-item {
     max-height: 500px;
     border: 1px groove #808080;

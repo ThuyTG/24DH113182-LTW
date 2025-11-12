@@ -145,8 +145,8 @@
     <Compile Include="Areas\Customer\Controllers\HomeController.cs" />
     <Compile Include="Areas\Customer\Controllers\OrderController.cs" />
     <Compile Include="Areas\Customer\CustomerAreaRegistration.cs" />
-    <Content Include="Areas\Customer\Views\Home\MyOrder.cshtml" />
-    <None Include="Areas\Customer\Views\Home\OrderSuccess.cshtml" />
+    <Content Include="Areas\Customer\Views\Order\MyOrder.cshtml" />
+    <None Include="Areas\Customer\Views\Order\OrderSuccess.cshtml" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +220,7 @@
     <Content Include="Content\images\Logo.png" />
     <Content Include="Content\myStyle\CustomerHome.css" />
     <Content Include="Content\myStyle\Layout.css" />
+    <Content Include="Content\myStyle\RelatedAndTopProduct.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -277,7 +278,7 @@
     <Content Include="Areas\Customer\Views\Account\Register.cshtml" />
     <Content Include="Areas\Customer\Views\Account\Login.cshtml" />
     <Content Include="Areas\Customer\Views\Account\ProfileInfo.cshtml" />
-    <Content Include="Areas\Customer\Views\Home\Checkout.cshtml" />
+    <Content Include="Areas\Customer\Views\Order\Checkout.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -308,7 +309,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Customer\Data\" />
-    <Folder Include="Areas\Customer\Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
