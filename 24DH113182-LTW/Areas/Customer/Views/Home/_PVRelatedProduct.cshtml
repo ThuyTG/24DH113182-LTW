@@ -1,11 +1,100 @@
 ﻿@model _24DH113182_LTW.Models.ViewModel.ProductDetailVM
 @using PagedList.Mvc
 
-<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css" />
+@*<link rel="stylesheet" type="text/css" href="~/Content/myStyle/RelatedAndTopProduct.css" />*@
+<style>
+/* Related Products Section */
+.listProduct {
+    padding: 40px 20px;
+    background: #f8f9fa;
+}
 
+.listProduct h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+}
+
+/* Product Grid */
+.feature-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fproduct-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.fproduct-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Product Image Container */
+.fproduct-item > div:first-child {
+    width: 100%;
+    height: 240px;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.fproduct-item > div:first-child a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fproduct-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+}
+
+/* Product Info */
+.fproduct-item > div:last-child {
+    padding: 16px;
+}
+
+.fproduct-item h5 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    line-height: 1.4;
+    min-height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.prodSale {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin: 0;
+}
+
+}
+</style>
 @if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
 {
-    <section class="container-fluid listProduct">
+    <section class="container-fluid listProduct" style="max-width:2304px; margin: 0 auto;">
         <h4 style="font-weight: bold">Sản phẩm tương tự</h4>
         <ul class="feature-container">
             @foreach (var product in Model.TopProducts)

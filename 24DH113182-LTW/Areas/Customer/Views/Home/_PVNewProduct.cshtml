@@ -8,13 +8,13 @@
 
 @if (Model.NewProducts != null && Model.NewProducts.Any())
 {
-    <section class="container-fluid listProd">
+    <section class="container-fluid listProd" style="max-width:2304px; margin: 0 auto;">
         <h2>Sản phẩm mới</h2>
         <ul class="list-container">
             @foreach (var product in Model.NewProducts)
             {
                 <li class="listProduct-item">
-                    <div>
+                    <div class="img-container">
                         <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
                             <img src="@Html.DisplayFor(modelItem => product.ProductImage)" />
                         </a>

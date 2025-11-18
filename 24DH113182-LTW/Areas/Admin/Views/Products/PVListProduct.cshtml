@@ -6,6 +6,48 @@
             height: 150px;
             width: 150px;
         }
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0 20px 0;
+            padding: 20px;
+        }
+
+        .pagination {
+            display: inline-flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 0;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+            .pagination li {
+                display: inline-block;
+                border-right: 1px solid #007bff;
+            }
+
+                .pagination li:last-child {
+                    border-right: none;
+                }
+
+                .pagination li a,
+                .pagination li span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 40px;
+                    height: 40px;
+                    padding: 10px 15px;
+                    color: #007bff;
+                    background-color: white;
+                    text-decoration: none;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
     </style>
 </head>
 

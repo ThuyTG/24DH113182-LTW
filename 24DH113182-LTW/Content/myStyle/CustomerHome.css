@@ -20,7 +20,20 @@
     .banner-container p {
         font-size: 1rem;
     }
-
+/* Button */
+.btnBanner{
+    text-decoration: none;
+    color: white;
+    border: 1px solid black;
+    border-radius: 24px;
+    padding: 10px;
+    background-color: navy;
+}
+    .btnBanner:hover {
+        background-color: cornflowerblue;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
 /*breadcrumb*/
 .breadcrumb {
     display: inline-block;
@@ -69,44 +82,115 @@
 /*Style của FEATURE PRODUCT*/
 .featureProd {
     text-align: left;
+    padding: 40px 20px;
+    background: transparent;
 }
 
+/* Container as horizontal slider */
 .feature-container {
-    display: flex; /*cho phép của nganga*/
-    overflow-x: auto; /* mandatory*/
+    display: flex;
+    align-items: flex-start;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 8px;
+    position: relative;
 }
 
-/*Product-item (làm thì dụng slider)*/
-.fproduct-item {
-    width: 100px; /* đặt chiều theo độ rộng màn hình */
-    max-height: 400px;
-    margin: 20px;
-    gap: 5px; /*khoảng cách giữa 2 items*/
-    border: 1px groove #808080;
+/* Make items explicit snap targets and keyboard-focusable */
+.featureProduct-item {
+    min-width: 220px;
+    max-width: 260px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
     border-radius: 10px;
-    flex: 0 0 auto; /*để các sản phẩm không bị lặp lại ở đầu này cuốn*/
-    scroll-snap-align: start; /*để các sản phẩm đồng lặp ở điểm khối cuốn*/
+    background: #fff;
+    flex-shrink: 0;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-    .fproduct-item img {
-        padding: 5px;
-        max-width: 100px;
-        vertical-align: central;
-        background-color: transparent;
-    }
+/* lift effect on hover/focus for keyboard accessibility */
+.featureProduct-item:hover,
+.featureProduct-item:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* image sizing and containment */
+.featureProduct-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+/* ensure first inner block centers the image */
+.featureProduct-item > div:first-child {
+    text-align: center;
+}
+
+/* product text styles (map both legacy and current class names) */
+.productPrice, .prodPrice {
+    font-weight: bolder;
+    color: brown;
+    padding: 6px 5px 0 5px;
+}
+
+.productName, .prodname {
+    color: #111;
+    font-weight: 700;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 0.98rem;
+}
+
+.productCategory, .prodcate {
+    color: #666;
+    padding: 0 5px 6px 5px;
+    font-size: 0.9rem;
+}
+
+.productSale, .prodSale {
+    font-size: 0.85rem;
+    color: dimgray;
+    padding: 0 5px 6px 5px;
+}
 
 /*Style của LIST PRODUCT */
 .listProduct {
-    text-align: left;
+
 }
 .list-container {
     list-style-type: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: row;
     padding: 0;
-    margin: 0;
+    margin: 20px;
+    overflow: hidden;
 }
+.listProduct-item {
+    width: 250px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    height: auto;
+    margin-right: 10px;
+}
+    .listProduct-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
 
+    }
 .lproduct-item {
     max-height: 500px;
     border: 1px groove #808080;
@@ -119,7 +203,7 @@
         background-color: transparent;
     }
 
-/*cấc thuộc tính chung của FEATURE và NEW sản phẩm*/
+/*các thuộc tính chung của FEATURE và NEW sản phẩm*/
 
 .featureProd h2, .listProduct h2 {
     font-size: 2em;
@@ -127,31 +211,7 @@
     text-align: center;
 }
 
-.prodPrice {
-    font-weight: bolder;
-    color: blue;
-    font-weight: bolder;
-    padding: 10px 5px 0px 5px;
-}
-
-.prodname {
-    color: black;
-    font-weight: bold;
-    padding: 0px 5px 0px 5px;
-}
-
-.prodcate {
-    color: black;
-    padding: 0px 5px 0px 5px;
-}
-
-.prodSale {
-    font-size: small;
-    color: dimgray;
-    padding: 0px 5px 0px 5px;
-}
-
-/*Style của PRODUCT DETAIL*/
+/* PRODUCT DETAIL */
 .pro {
     padding: 50px 10px 50px 10px;
     background-color: ghostwhite;
@@ -177,4 +237,133 @@
     font-weight: lighter;
 }
 
+/* CSS cho pagination*/
+/* Pagination Styling */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    padding: 20px;
+}
 
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+}
+
+    .pagination li {
+        display: inline-block;
+    }
+
+        .pagination li a,
+        .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 35px;
+            height: 35px;
+            padding: 8px 12px;
+            color: #333;
+            background-color: white;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* Active page */
+        .pagination li.active span,
+        .pagination li.active a {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+
+        /* Hover effect */
+        .pagination li a:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Disabled state (previous/next when not available) */
+        .pagination li.disabled span,
+        .pagination li.disabled a {
+            color: #ccc;
+            background-color: #f5f5f5;
+            border-color: #ddd;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Previous and Next buttons */
+        .pagination li:first-child a,
+        .pagination li:last-child a {
+            font-weight: 600;
+        }
+
+        /* Ellipsis (...) */
+        .pagination li.PagedList-ellipses {
+            padding: 8px 12px;
+            color: #999;
+        }
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .featureProduct-item { min-width: 200px; max-width: 220px; }
+    .featureProduct-item img { height: 130px; }
+}
+
+@media (max-width: 768px) {
+    .pagination li a,
+    .pagination li span {
+        min-width: 30px;
+        height: 30px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+
+    .pagination {
+        gap: 3px;
+    }
+
+    .feature-container::before,
+    .feature-container::after { display: none; } /* small screens don't need overlays */
+}
+
+@media (max-width: 480px) {
+    .pagination li a,
+    .pagination li span {
+        min-width: 28px;
+        height: 28px;
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .pagination {
+        gap: 2px;
+    }
+
+    .featureProduct-item { min-width: 160px; max-width: 180px; }
+    .featureProduct-item img { height: 100px; }
+}
+
+.img-container {
+    width: 200px;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+}
+    .img-container img, a{
+        object-fit: contain;
+        max-height: 100%;
+        max-width: 100%
+    }

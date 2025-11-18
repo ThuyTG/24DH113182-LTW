@@ -95,11 +95,11 @@ namespace _24DH113182_LTW.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage, UploadImage")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDescription,ProductPrice,ProductImage, UploadImg")] Product product)
         {
             if (ModelState.IsValid)
             {
-                if(product.ProductImage != null)
+                if(product.UploadImg != null)
                 {
                     string filename = Path.GetFileName(product.UploadImg.FileName);
                     string savepath = "~/Content/images/";

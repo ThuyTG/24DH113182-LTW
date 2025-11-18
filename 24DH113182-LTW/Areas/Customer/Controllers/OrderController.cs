@@ -3,6 +3,7 @@ using _24DH113182_LTW.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,15 +18,21 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
         {
             return View();
         }
-
+        private CartService GetCartService()
+        {
+            return new CartService(Session);
+        }
         // GET: Customer/Checkout
         [Authorize]
         public ActionResult Checkout()
         {
-            var cart = Session["Cart"] as List<CartItem>;
-            if (cart == null)
+            var cartService = GetCartService();
+            var cart = cartService.GetCart();
+            var cartItems = cart.Items.ToList();
+            if (!cartItems.Any())
             {
-                return RedirectToAction("Index", "Home");
+                TempData["Message"] = "Giỏ hàng trống hoặc chưa được khởi tạo";
+                return RedirectToAction("Index", "Cart");
             }
             var user = db.Users.SingleOrDefault(u => u.Username == User.Identity.Name);
             if (user == null)
@@ -39,12 +46,12 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
             }
             var model = new CheckoutVM
             {
-                CartItems = cart,
-                TotalAmount = cart.Sum(item => item.TotalPrice),
+                CartItems = cartItems,
+                TotalAmount = cart.TotalValue(),
                 OrderDate = DateTime.Now,
                 ShippingAddress = customer.CustomerAddress,
                 CustomerID = customer.CustomerID,
-                Username = customer.Username,
+                Username = customer.Username
             };
             return View(model);
         }
@@ -57,71 +64,172 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
         {
             if(ModelState.IsValid)
             {
-                var cart = Session["Cart"] as List<CartItem>;
-                if(cart == null)
+                var cart = Session["Cart"] as Cart;
+                if (cart == null || !cart.Items.Any())
                 {
-                    return RedirectToAction("Index", "Home");
+                    TempData["Message"] = "Giỏ hàng trống";
+                    return RedirectToAction("Index", "Cart");
                 }
                 var user = db.Users.SingleOrDefault(u => u.Username== User.Identity.Name);
                 if (user == null) return RedirectToAction("Login", "Account");
                 var customer = db.Customers.SingleOrDefault(c => c.Username == user.Username);
                 if(customer == null) return RedirectToAction("Login", "Account");
 
-                // Nếu người dùng chọn PayPal chuyển hướng trang thanh toán đến PaymentWithPaypal
-                if (model.PaymentMethod == "Paypal") return RedirectToAction("PaymentWithPaypal", "PayPal", model);
-
-
-                // Đặt trạng thái đơn hàng
-                string paymentStatus = "Chưa thanh toán";
-                switch(model.PaymentMethod)
+                try
                 {
-                    case "Tiền mặt":
-                        paymentStatus = "Thanh toán thành công"; 
-                        break;
-                    case "PayPal":
-                        paymentStatus = "Thanh toán PayPal";
-                        break;
-                    case "Mua trước trả sau":
-                        paymentStatus = "Trả góp";
-                        break;
-                    default:
-                        break;
-                }
-
-                // Tạo đơn hàng và chi tiết đơn hàng
-                var order = new Order
-                {
-                    CustomerID = customer.CustomerID,
-                    OrderDate = DateTime.Now,
-                    TotalAmount = model.TotalAmount,
-                    PaymentStatus = paymentStatus,
-                    PaymentMethod = model.PaymentMethod,
-                    ShippingMethod = model.ShippingMethod,
-                    ShippingAddress = model.ShippingAddress,
-                    OrderDetails = cart.Select(item => new OrderDetail
+                    // Tạo đơn hàng mới
+                    var order = new Order
                     {
-                        ProductID = item.ProductID,
-                        Quantity = item.Quantity,
-                        UnitPrice = item.UnitPrice,
-                        TotalPrice = item.TotalPrice,
-                    }).ToList()
-                };
-                db.Orders.Add(order);
-                db.SaveChanges();
-                // Xóa giỏ hàng sau khi đặt hàng thành công
-                Session["Cart"] = null;
-                // Điều hướng tới trang xác nhận đơn hàng
-                return RedirectToAction("OrderSuccess", new {id = order.OrderID});
+                        CustomerID = customer.CustomerID,
+                        OrderDate = DateTime.Now,
+                        TotalAmount = cart.TotalValue(),
+                        PaymentStatus = "Pending", // Set Status
+                        PaymentMethod = model.PaymentMethod,
+                        ShippingMethod = model.ShippingMethod,
+                        ShippingAddress = model.ShippingAddress,
+                        OrderDetails = cart.Items.Select(item => new OrderDetail
+                        {
+                            ProductID = item.ProductID,
+                            Quantity = item.Quantity,
+                            UnitPrice = item.UnitPrice,
+                            TotalPrice = item.TotalPrice
+                        }).ToList()
+                    };
+
+                    // Lưu vào database
+                    db.Orders.Add(order);
+                    db.SaveChanges();
+
+                    // Xóa giỏ hàng
+                    Session["Cart"] = null;
+
+                    return RedirectToAction("OrderSuccess", new { id = order.OrderID });
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = "Có lỗi xảy ra: " + ex.Message;
+                    model.CartItems = cart.Items.ToList();
+                    model.TotalAmount = cart.TotalValue();
+                    return View(model);
+                }
             }
+
+            // Nếu validation fail, reload cart data
+            var cartReload = Session["Cart"] as Cart;
+            if (cartReload != null)
+            {
+                model.CartItems = cartReload.Items.ToList();
+                model.TotalAmount = cartReload.TotalValue();
+            }
+
             return View(model);
         }
-        public ActionResult OrderSuccess()
+        public ActionResult OrderSuccess(int? id)
         {
-            return View();
+            var order = db.Orders.Include("OrderDetails").SingleOrDefault(o => o.OrderID == id);
+            if(order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
         }
-        public ActionResult MyOrder()
+
+        // GET: Customer/MyOrder
+        public ActionResult MyOrder(string orderCode = null, string productName = null)
         {
-            return View();
+            string username = User.Identity.Name;
+
+            // Lấy CustomerID từ username
+            var customer = db.Customers.FirstOrDefault(c => c.Username == username);
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Tìm đơn hàng qua CustomerID
+            var query = db.Orders.Where(o => o.CustomerID == customer.CustomerID);
+
+            // Apply search filters
+            if (!string.IsNullOrEmpty(orderCode))
+            {
+                query = query.Where(o => o.OrderID.ToString().Contains(orderCode));
+            }
+
+            if (!string.IsNullOrEmpty(productName))
+            {
+                query = query.Where(o => o.OrderDetails.Any(od =>
+                    od.Product.ProductName.Contains(productName)));
+            }
+
+            // Include related data and order by date
+            var orders = query
+                .Include(o => o.OrderDetails.Select(od => od.Product))
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+
+            return View(orders);
+        }
+
+        public ActionResult OrderDetail(int id)
+        {
+            string username = User.Identity.Name;
+            var customer = db.Customers.FirstOrDefault(c => c.Username == username);
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var order = db.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.OrderDetails.Select(od => od.Product))
+                .FirstOrDefault(o => o.OrderID == id && o.CustomerID == customer.CustomerID);
+
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(order);
+        }
+
+        [HttpPost]
+        public ActionResult Reorder(int id)
+        {
+            string username = User.Identity.Name;
+            var customer = db.Customers.FirstOrDefault(c => c.Username == username);
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var order = db.Orders
+                .Include(o => o.OrderDetails)
+                .FirstOrDefault(o => o.OrderID == id && o.CustomerID == customer.CustomerID);
+
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            var cartService = new CartService(Session);
+            var cart = cartService.GetCart();
+            foreach (var item in order.OrderDetails)
+            {
+                var product = db.Products.Find(item.ProductID);
+                if (product != null)
+                {
+                    cart.AddItem(
+                        product.ProductID,
+                        product.ProductImage,
+                        product.ProductName,
+                        item.Quantity, 
+                        (int)product.ProductPrice,
+                        product.Category.CategoryName
+                    );
+                }
+            }
+
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

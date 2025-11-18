@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _24DH113182_LTW.Models;
+using _24DH113182_LTW.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +10,64 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
 {
     public class CartController : Controller
     {
-        // GET: Customer/Cart
+        //// GET: Customer/Cart
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+
+
+        private MyStoreEntities db = new MyStoreEntities();
+        private CartService cartService;
+        private CartService GetCartService()
+        {
+            if (cartService == null)
+                cartService = new CartService(Session);
+            return cartService;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var cart = GetCartService().GetCart();
+            return View(cart);
+
+        }
+
+        public ActionResult AddToCart(int id, int quantity = 1)
+        {
+            var product = db.Products.Find(id);
+            if (product != null)
+            {
+                var cartService = GetCartService();
+                cartService.GetCart().AddItem(
+                    product.ProductID,
+                    product.ProductImage,
+                    product.ProductName,
+                    quantity, (int)product.ProductPrice,
+                    product.Category.CategoryName);
+            }
+            return RedirectToAction("Index");
+
+
+        }
+
+        public ActionResult RemoveFromCart(int id)
+        {
+            var cartService = GetCartService();
+            cartService.GetCart().RemoveItem(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ClearCart()
+        {
+            GetCartService().ClearCart();
+            return RedirectToAction("Index");
+        }
+        public ActionResult UpdateQuantity(int quantity, int id)
+        {
+            var cartService = GetCartService();
+            cartService.GetCart().UpdateQuantity(quantity, id);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -7,13 +7,13 @@
 
 <h2 class="bg-success">Xóa danh mục</h2>
 
-<h3 class="alert-danger">Bạn có chắc muốn xóa danh mục này không?</h3>
+<h3 class="alert-danger" style="color: red">Bạn có chắc muốn xóa danh mục này không?</h3>
 @using (Html.BeginForm()) {
      @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <div class="form-group">
             <div class="control-label col-md-2">Tên danh mục</div>
-            <div class="col-md-10">
+            <div class="col-md-10" style="font-weight: 700; font-size: 28px;">
                 @Html.DisplayFor(model => model.CategoryName)
             </div>
             <div class="form-group">

@@ -1,0 +1,284 @@
+﻿@model _24DH113182_LTW.Models.ViewModel.CheckoutVM
+
+@{
+    ViewBag.Title = "Đặt hàng";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+<script>
+    function enableAddressEdit() {
+        document.getElementById("shippingAddress").removeAttribute("readonly");
+        document.getElementById("newAddressGroup").style.display = "block";
+    }
+    function updateShippingAddress() {
+        var newAddress = document.getElementById("newShippingAddress").value;
+        if (newAddress) {
+            document.getElementById("shippingAddress").value = newAddress;
+        }
+    }
+</script>
+<style>
+    /* Checkout page styling */
+
+    .checkout-container {
+        max-width: 2304px;
+        margin: 30px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    h2 {
+        font-size: 2rem;
+        color: brown;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+        color: brown;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid brown;
+        padding-bottom: 8px;
+    }
+
+    /* Order information table */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+        .table thead {
+            background: brown;
+            color: white;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .table img {
+            max-width: 60px;
+            max-height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+    /* Form groups */
+    .form-group {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .control-label {
+        font-weight: 700;
+        color: #333;
+        min-width: 150px;
+    }
+
+    .col-md-2 {
+        flex: 0 0 auto;
+    }
+
+    .col-md-10 {
+        flex: 1;
+    }
+
+    .col-md-offset-2 {
+        margin-left: 16.66%;
+    }
+
+    /* Inputs and textareas */
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: brown;
+            box-shadow: 0 0 6px rgba(165,42,42,0.2);
+        }
+
+        .form-control[readonly] {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+    /* Buttons */
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-link {
+        background: none;
+        color: #007bff;
+        text-decoration: none;
+        padding: 5px 10px;
+    }
+
+        .btn-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+    .btn-success {
+        background: brown;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+
+        .btn-success:hover {
+            background: #7a3f3f;
+            box-shadow: 0 4px 12px rgba(165,42,42,0.2);
+        }
+
+    /* Radio buttons and checkboxes */
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-right: 8px;
+        cursor: pointer;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 8px;
+    }
+
+    /* Validation messages */
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 0.9rem;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Hidden elements */
+    #newAddressGroup {
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        border-left: 4px solid brown;
+    }
+</style>
+<div class="checkout-container">
+    <h2>ĐẶT HÀNG</h2>
+    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        //Thêm các dòng này để lấy đc data
+        @Html.HiddenFor(m => m.CustomerID)
+        @Html.HiddenFor(m => m.Username)
+        @Html.HiddenFor(m => m.OrderDate)
+        @Html.HiddenFor(m => m.TotalAmount)
+
+        <h3>Thông tin đơn hàng</h3>
+        <div class="form-group">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <tr>
+                            <td><img src="@item.ProductImage" style="max-height:60px;" /></td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") đ</td>
+                            <td>@item.TotalPrice.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Thông tin giao hàng</h3>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ShippingAddress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ShippingAddress, new { @class = "form-control", @readonly = "readonly", id = "shippingAddress" })
+                @Html.ValidationMessageFor(m => m.ShippingAddress)
+                <button type="button" class="btn btn-link" onclick="enableAddressEdit()">Chỉnh sửa</button>
+            </div>
+        </div>
+
+        <div class="form-group" id="newAddressGroup" style="display:none;">
+            @Html.Label("Địa chỉ mới", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" id="newShippingAddress" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Phương thức giao hàng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(m => m.ShippingMethod, "Giao hàng nhanh") Giao hàng nhanh<br>
+                @Html.RadioButtonFor(m => m.ShippingMethod, "Giao hàng tiết kiệm") Giao hàng tiết kiệm
+                @Html.ValidationMessageFor(m => m.ShippingMethod)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Phương thức thanh toán", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(m => m.PaymentMethod, "Tiền mặt") Tiền mặt<br>
+                @*@Html.RadioButtonFor(m => m.PaymentMethod, "Paypal") Paypal<br>*@
+                @Html.RadioButtonFor(m => m.PaymentMethod, "Mua trước trả sau") Mua trước trả sau
+                @Html.ValidationMessageFor(m => m.PaymentMethod)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TotalAmount, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(m => m.TotalAmount)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đặt hàng" class="btn btn-success" onclick="updateShippingAddress()" />
+            </div>
+        </div>
+        <div>
+            @Html.ActionLink("Tiếp tục mua hàng", "Index", "Cart", new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>
+
+

@@ -1,10 +1,8 @@
 ﻿@model _24DH113182_LTW.Models.ViewModel.Cart
 
-@{ 
+@{
     ViewBag.Title = "Giỏ hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
 }
 
 <style>
@@ -29,12 +27,33 @@
     .shoppingcart tr {
         font-size: smaller;
     }
+
+    .shoppingcart table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .shoppingcart td, .shoppingcart th {
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .quantity-controls input[type="number"] {
+            width: 80px;
+        }
 </style>
-<script>
+<script language="JavaScript">
     function cartUpdateQuantity(id, newQuantity) {
+        if (newQuantity < 1) return;
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = 'shoppingcart.php?action=update&id=' + id;
+        form.action = "@Url.Action("UpdateQuantity", "Cart")";
 
         const idInput = document.createElement('input');
         idInput.type = 'hidden';
@@ -45,68 +64,71 @@
         const quantityInput = document.createElement('input');
         quantityInput.type = 'hidden';
         quantityInput.name = 'quantity';
-        quantityInput.type = 'hidden';
+        quantityInput.value = newQuantity;
         form.appendChild(quantityInput);
+
+        document.body.appendChild(form);
         form.submit();
+    }
 </script>
 
-<h2>Giỏ Hàng</h2>
-<div class="shoppingcart">
-    @if(!Model.Items.Any() || Model.Items == null)
-    { 
-        <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+<div class="shoppingcart" style="max-width:2304px; margin: 0 auto;">
+    <h2>GIỎ HÀNG</h2>
+    @if (!Model.Items.Any())
+    {
+        <p>Bạn chưa có sản phẩm nào trong giỏ.</p>
     }
-    else 
-    { 
+    else
+    {
         <div class="col-md-8 cart-section">
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th colspan="2">Sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
                         <th>Thành tiền</th>
-                        <th title="Xóa tất cả mặt hàng">
-                            @*Tìm ảnh remove để thay "Remove" = <img src="~/Image/remove.png" style="max-height: 20px"/>*@
-                            <a href="@Url.Action("ClearCart", "Cart", null)">Remove</a>
+                        <th title="Xóa tất cả mặt hàng trong giỏ">
+                            <a href="@Url.Action("ClearCart", "Cart", null)">
+                                <img src="~/Content/images/Remove.png" style="max-height:20px;" />
+                            </a>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var item in Model.Items)
+                    @foreach (var item in Model.Items)
                     {
                         <tr>
-                            <td><img src="@item.ProductImage" alt="@item.ProductName" style="max-height: 80px"/></td>
+                            <td><img src="@item.ProductImage" alt="@item.ProductName" style="max-height:80px;" /></td>
                             <td class="col-md-3">@item.ProductName</td>
                             <td>
-                                @using (Html.BeginForm("UpodateQuantity", "Cart", FormMethod.Post))
+                                @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post))
                                 {
                                     <input type="hidden" name="id" value="@item.ProductID" />
-                                    <button type="button" style="width: 20px" onclick="cartUpdateQuantity(@item.ProductID, @item.Quantity - 1)">➖</button>
-                                    <input type="number"/>
-                                    <button type="button" style="width: 20px" onclick="cartUpdateQuantity(@item.ProductID, @item.Quantity + 1)">➕</button>
+                                    <button type="button" style="width: 20px;" onclick="cartUpdateQuantity(@item.ProductID, @item.Quantity - 1)">-</button>
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" max="100" style="width: 40px; text-align:right;" readonly />
+                                    <button type="button" style="width: 20px;" onclick="cartUpdateQuantity(@item.ProductID, @item.Quantity + 1)">+</button>
                                 }
                             </td>
                             <td>@item.UnitPrice.ToString("N0")</td>
                             <td>@item.TotalPrice.ToString("N0")</td>
                             <td>
-                                <a href="@Url.Action("RemoveFromCart", "Cart", new {id = item.ProductID})">
-                                    @*Tìm ảnh remove để thay "Remove" = <img src="~/Image/remove.png" style="max-height: 20px"/>*@
-                                    Remove
+                                <a href="@Url.Action("RemoveFromCart", "Cart", new { id = item.ProductID })">
+                                    <img src="~/Content/images/Remove.png" style="max-height:20px;" />
                                 </a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-            <hr />
         </div>
         <div class="col-md-3 cart-section">
-            <div><strong>Tổng giá trị: &nbsp; <span style="color:rosybrown">@Model.TotalValue().ToString("N0")</span></strong></div>
-            <div>@Html.ActionLink("Mua hàng", "Checkout", "Cart", null, new {@class = "btn btn-danger cart-button"})</div>
+            <div><strong>Tổng giá trị: &nbsp;<span style="color: red;">@Model.TotalValue().ToString("N0")</span></strong></div>
+            <div>@Html.ActionLink("Mua hàng", "Checkout", "Order", null, new { @class = "btn btn-danger cart-button" })</div>
         </div>
+
     }
-</div>
-<div class="col-md-12">
-    @Html.ActionLink("Tiếp tục mua hàng", "Index", "Home", null, new { @class = "btn btn-primary cart-button" })
+    <div class="col-md-12">
+        @Html.ActionLink("Tiếp tục mua hàng", "Index", "Home", null, new { @class = "btn btn-warning cart-button" })
+    </div>
 </div>

@@ -1,24 +1,68 @@
 ﻿@model _24DH113182_LTW.Models.ViewModel.ProductDetailVM
 @using PagedList.Mvc
 
-<link rel="stylesheet" type="text/css" href="~/Content/myStyle/CustomerHome.css" />
-
+<style>
+    .list-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 6px;
+    }
+    .lproduct-item {
+        min-width: 180px;
+        max-width: 220px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.12s ease, transform 0.12s ease;
+    }
+        .lproduct-item .top-product-img img{
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .lproduct-item .top-product-info h5{
+            font-size: 15px;
+            text-align: start;
+        }
+    .pagination-container .pagination li{
+        border: 1px solid black;
+        padding: 10px;
+    }
+    .pagination-container .pagination li a {
+        text-decoration: none;
+        color: black;
+    }
+        .pagination-container .pagination li:hover {
+            background-color: antiquewhite;
+        }
+</style>
 
 @*Hiển thị danh sách sản phẩm*@
 @if (Model.TopProducts != null && Model.TopProducts.Any())
 {
-    <section class="container-fluid listProduct">
+    <section class="container-fluid listProduct" style="max-width:2304px; margin: 0 auto;">
         <h4 style="font-weight: bold">Sản phẩm bán chạy</h4>
         <ul class="list-container">
             @foreach (var product in Model.TopProducts)
             {
                 <li class="lproduct-item">
-                    <div>
+                    <div class="top-product-img">
                         <a href="@Url.Action("ProductDetail", "Home", new {id = product.ProductID})">
                             <img src="@Html.DisplayFor(modelItem => product.ProductImage)"/>
                         </a>
                     </div>
-                    <div>
+                    <div class="top-product-info">
                         <h5>@Html.DisplayFor(modeItem => product.ProductName)</h5>
                         <p class="prodSale">@Html.DisplayFor(modeItem => product.ProductPrice)</p>
                     </div>
