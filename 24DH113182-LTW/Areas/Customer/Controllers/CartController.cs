@@ -43,8 +43,7 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
                     product.ProductID,
                     product.ProductImage,
                     product.ProductName,
-                    (int)product.ProductPrice,
-                    quantity,
+                    quantity, (int)product.ProductPrice,
                     product.Category.CategoryName);
             }
             return RedirectToAction("Index");
@@ -64,10 +63,10 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
             GetCartService().ClearCart();
             return RedirectToAction("Index");
         }
-        public ActionResult UpdateQuantity(int id, int quantity)
+        public ActionResult UpdateQuantity(int quantity, int id)
         {
             var cartService = GetCartService();
-            cartService.GetCart().UpdateQuantity(id, quantity);
+            cartService.GetCart().UpdateQuantity(quantity, id);
             return RedirectToAction("Index");
         }
     }

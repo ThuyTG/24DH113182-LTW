@@ -14,33 +14,36 @@
         align-items: center;
     }
 </style>
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="col-md-6" style="text-align:center;">
-        <h2>Đăng nhập</h2>
-    </div>
-    @* Tên đăng nhập *@
-    <div class="form-group">
-        @Html.LabelFor(m => m.Username, new { @class = "control-label col-md-2" })
-        <div class="col-md-4">
-            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Username)
+<div class="login-container" style="max-width:2304px;margin:0 auto;">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-6" style="text-align:center;">
+            <h2>Đăng nhập</h2>
         </div>
-    </div>
-    @* mật khẩu *@
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
-        <div class="col-md-4">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Password)
+        @* Tên đăng nhập *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-4">
-            <input type="submit" value="Đăng nhập" class="btn btn-info accountbtn" /><br />
-            <p>Bạn Chưa Có Tài Khoản? <a href="@Url.Action("Register", "Account", null)" />Đăng ký ngay</p>
+        @* mật khẩu *@
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
         </div>
-    </div>
-}
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="Đăng nhập" class="btn btn-info accountbtn" /><br />
+                <p>Bạn Chưa Có Tài Khoản? <a href="@Url.Action("Register", "Account", null)" />Đăng ký ngay</p>
+            </div>
+        </div>
+    }
+</div>
+

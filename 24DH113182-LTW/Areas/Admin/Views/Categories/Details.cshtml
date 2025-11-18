@@ -5,10 +5,29 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2 class="bg-success">Chi tiết sản phẩm</h2>
-@Html.Partial("PVProductInfo", Model) 
+<h2 class="bg-success">Chi tiết danh mục </h2>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Chi tiết danh mục</h4>
+                </div>
+                <div class="card-body">
 
-<p>
-    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.CategoryID }, new {@class = "btn btn-primary"}) |
-    @Html.ActionLink("Trở về danh sách", "Index", null, new { @class = "btn btn-primary" })
-</p>
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Tên danh mục:</div>
+                        <div class="col-md-8">@Model.CategoryName</div>
+                    </div>
+
+                    <hr />
+
+                    <div class="text-right">
+                        @Html.ActionLink("Cập nhật", "Edit", new { id = Model.CategoryID }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

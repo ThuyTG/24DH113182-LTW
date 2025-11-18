@@ -89,64 +89,6 @@
 }
 .related-item .btn:hover { background: #7a3f3f; }
 
-/* Top products (sidebar style) */
-.top-products {
-    margin-top: 16px;
-}
-.top-products h4 {
-    font-size: 1.15rem;
-    color: brown;
-    margin-bottom: 10px;
-}
-
-/* vertical list for top items */
-.top-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 6px;
-}
-
-/* compact top item */
-.top-item {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 8px;
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.12s ease, transform 0.12s ease;
-}
-.top-item:hover {
-    background: #faf7f3;
-    transform: translateY(-2px);
-}
-
-/* small thumbnail + text */
-.top-item .thumb {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 6px;
-    flex-shrink: 0;
-}
-.top-item .top-meta {
-    display: flex;
-    flex-direction: column;
-}
-.top-item .top-meta .name {
-    font-weight: 700;
-    color: #111;
-    font-size: 0.95rem;
-}
-.top-item .top-meta .price {
-    color: brown;
-    font-weight: 700;
-    font-size: 0.95rem;
-}
 
 /* responsive adjustments */
 @media (max-width: 768px) {

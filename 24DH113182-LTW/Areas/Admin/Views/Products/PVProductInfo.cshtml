@@ -6,15 +6,27 @@
             height: 250px;
             max-width: 250px;
         }
+        .detail-container{
+            margin: 10px;
+            width: 70%;
+            display: flex;
+            margin-left: 0;
+            background-color: #a9a6a6;
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+        }
+        .detail-img, .detail-info{
+            margin: 10px;
+        }
     </style>
 </head>
 
 <div class="container-fluid">
-    <div class="div-horizontal bg-info">
-        <div class="col-md-3">
+    <div class="div-horizontal detail-container">
+        <div class="col-md-3 detail-img">
             <img src="@Html.DisplayFor(model => model.ProductImage)"/>
         </div>  
-        <div class="col-md-9 bg-info">
+        <div class="col-md-9 detail-info">
             <dl>
                 <dt>Tên sản phẩm</dt>
                 <dd>@Html.DisplayFor(model => model.ProductName)</dd>

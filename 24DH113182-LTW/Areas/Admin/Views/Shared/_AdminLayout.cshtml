@@ -18,12 +18,12 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     @*@Html.ActionLink("Text hiển thị", "Action", "Controller", route values, HTML attributes)*@
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Danh mục", "About", "Categories", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Sản phẩm", "Contact", "Products", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Khách hàng", "Contact", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
+                    @*<li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>*@
+                    <li>@Html.ActionLink("Danh mục", "Index", "Admin/Categories", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Sản phẩm", "Index", "Admin/Products", new { area = "" }, new { @class = "nav-link" })</li>
+                    @*<li>@Html.ActionLink("Khách hàng", "Contact", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Đơn hàng", "Contact", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Tài khoản", "Contact", "Users", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Tài khoản", "Contact", "Users", new { area = "" }, new { @class = "nav-link" })</li>*@
                 </ul>
             </div>
         </div>

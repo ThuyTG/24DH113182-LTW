@@ -25,7 +25,7 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
                                                p.Category.CategoryName.Contains(searchTerm));
             }
             int pageNumber = page ?? 1;
-            int pageSize = 6;
+            int pageSize = 8;
 
             // Lấy 10 sản phẩm nổi bật
             model.FeaturedProducts = products.OrderByDescending(p => p.OrderDetails.Count()).Take(10).ToList();
@@ -48,18 +48,26 @@ namespace _24DH113182_LTW.Areas.Customer.Controllers
             // Lấy sản phẩm cùng danh mục
             var products = db.Products.Where(p => p.CategoryID == pro.CategoryID && p.ProductID != pro.ProductID).AsQueryable();
             ProductDetailVM model = new ProductDetailVM();
-
-            // Lấy ra số trang hiện tại
+            //Phan trang
             int pageNumber = page ?? 1;
             int pageSize = model.PageSize;
-            model.product = pro;
-            model.RelatedProducts = products.OrderBy(p => p.ProductID).Take(8).ToList();
-            model.TopProducts = products.OrderByDescending(p => p.OrderDetails.Count()).Take(8).ToPagedList(pageNumber, pageSize);
+            // Set quantity với giá trị mặc định là 1
+            int productQuantity = quantity ?? 1;
 
-            if (quantity.HasValue)
+            // Đảm bảo quantity luôn >= 1
+            if (productQuantity < 1)
             {
-                model.quantity = quantity.Value;
+                productQuantity = 1;
             }
+            model.product = pro;
+            model.quantity = productQuantity;  // Dùng productQuantity, không phải quantity.Value
+            model.estimatedValue = pro.ProductPrice * productQuantity; // Tính giá tạm tính
+            model.RelatedProducts = products.OrderBy(p => p.ProductID).Take(8).ToList(); // đỏi từ ToPageList(pageNumber, pageSize) -> 
+            model.TopProducts = products
+                .OrderByDescending(p => p.OrderDetails.Count())
+                .Take(8)
+                .ToPagedList(pageNumber, pageSize);
+
 
             return View(model);
         }
